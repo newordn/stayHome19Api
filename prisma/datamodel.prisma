@@ -1,0 +1,8 @@
+type User{
+    id: ID! @id
+    name: String!
+    phone: String! @unique
+    password: String!
+    position: String!
+    createdAt: DateTime! @createdAt
+}

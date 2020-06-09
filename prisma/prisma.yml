@@ -1,0 +1,9 @@
+# Points to the file that contains your datamodel
+datamodel: datamodel.prisma
+
+# Specifies language & location for the generated Prisma client
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
+
+endpoint: https://us1.prisma.sh/neword-2bedf8/StayHome19Api/dev
