@@ -58,6 +58,7 @@ type User {
   phone: String!
   password: String!
   position: String!
+  note: Int
   createdAt: DateTime!
 }
 
@@ -73,6 +74,7 @@ input UserCreateInput {
   phone: String!
   password: String!
   position: String!
+  note: Int
 }
 
 type UserEdge {
@@ -91,6 +93,8 @@ enum UserOrderByInput {
   password_DESC
   position_ASC
   position_DESC
+  note_ASC
+  note_DESC
   createdAt_ASC
   createdAt_DESC
 }
@@ -101,6 +105,7 @@ type UserPreviousValues {
   phone: String!
   password: String!
   position: String!
+  note: Int
   createdAt: DateTime!
 }
 
@@ -127,6 +132,7 @@ input UserUpdateInput {
   phone: String
   password: String
   position: String
+  note: Int
 }
 
 input UserUpdateManyMutationInput {
@@ -134,6 +140,7 @@ input UserUpdateManyMutationInput {
   phone: String
   password: String
   position: String
+  note: Int
 }
 
 input UserWhereInput {
@@ -207,6 +214,14 @@ input UserWhereInput {
   position_not_starts_with: String
   position_ends_with: String
   position_not_ends_with: String
+  note: Int
+  note_not: Int
+  note_in: [Int!]
+  note_not_in: [Int!]
+  note_lt: Int
+  note_lte: Int
+  note_gt: Int
+  note_gte: Int
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

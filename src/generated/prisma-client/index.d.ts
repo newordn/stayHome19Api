@@ -112,6 +112,8 @@ export type UserOrderByInput =
   | "password_DESC"
   | "position_ASC"
   | "position_DESC"
+  | "note_ASC"
+  | "note_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC";
 
@@ -193,6 +195,14 @@ export interface UserWhereInput {
   position_not_starts_with?: Maybe<String>;
   position_ends_with?: Maybe<String>;
   position_not_ends_with?: Maybe<String>;
+  note?: Maybe<Int>;
+  note_not?: Maybe<Int>;
+  note_in?: Maybe<Int[] | Int>;
+  note_not_in?: Maybe<Int[] | Int>;
+  note_lt?: Maybe<Int>;
+  note_lte?: Maybe<Int>;
+  note_gt?: Maybe<Int>;
+  note_gte?: Maybe<Int>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -212,6 +222,7 @@ export interface UserCreateInput {
   phone: String;
   password: String;
   position: String;
+  note?: Maybe<Int>;
 }
 
 export interface UserUpdateInput {
@@ -219,6 +230,7 @@ export interface UserUpdateInput {
   phone?: Maybe<String>;
   password?: Maybe<String>;
   position?: Maybe<String>;
+  note?: Maybe<Int>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -226,6 +238,7 @@ export interface UserUpdateManyMutationInput {
   phone?: Maybe<String>;
   password?: Maybe<String>;
   position?: Maybe<String>;
+  note?: Maybe<Int>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -249,6 +262,7 @@ export interface User {
   phone: String;
   password: String;
   position: String;
+  note?: Int;
   createdAt: DateTimeOutput;
 }
 
@@ -258,6 +272,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   phone: () => Promise<String>;
   password: () => Promise<String>;
   position: () => Promise<String>;
+  note: () => Promise<Int>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -269,6 +284,7 @@ export interface UserSubscription
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   position: () => Promise<AsyncIterator<String>>;
+  note: () => Promise<AsyncIterator<Int>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -280,6 +296,7 @@ export interface UserNullablePromise
   phone: () => Promise<String>;
   password: () => Promise<String>;
   position: () => Promise<String>;
+  note: () => Promise<Int>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -407,6 +424,7 @@ export interface UserPreviousValues {
   phone: String;
   password: String;
   position: String;
+  note?: Int;
   createdAt: DateTimeOutput;
 }
 
@@ -418,6 +436,7 @@ export interface UserPreviousValuesPromise
   phone: () => Promise<String>;
   password: () => Promise<String>;
   position: () => Promise<String>;
+  note: () => Promise<Int>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -429,6 +448,7 @@ export interface UserPreviousValuesSubscription
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   position: () => Promise<AsyncIterator<String>>;
+  note: () => Promise<AsyncIterator<Int>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -444,6 +464,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -452,11 +477,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.

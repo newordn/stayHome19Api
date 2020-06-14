@@ -10,6 +10,7 @@ type Mutation{
     userSetPassword(user:ID!,password:String!): User!
     userSetPosition(user:ID!,position:String!): User!
     userSetName(user:ID!,name:String): User!
+    userSetNote(user:ID!,note:Int!): User!
     }
 type User{
     id: ID!
@@ -17,6 +18,7 @@ type User{
     phone: String!
     password: String!
     position: String!
+    note: Int
 }
 `
 module.exports={

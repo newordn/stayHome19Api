@@ -23,10 +23,16 @@ const userSetName = async (parent,args,context,info)=>{
      const user = await context.prisma.updateUser({data:{name:args.name},where:{id:args.user}})
     return user
 }
+const userSetNote= async (parent,args,context,info)=>{
+    console.log('userSetNote mutation')
+     const user = await context.prisma.updateUser({data:{note:args.note},where:{id:args.user}})
+    return user
+}
 
 module.exports={
     userSetPhone,
     userSetPassword,
     userSetPosition,
-    userSetName
+    userSetName,
+    userSetNote
 }

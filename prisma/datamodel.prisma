@@ -4,5 +4,6 @@ type User{
     phone: String! @unique
     password: String!
     position: String!
+    note: Int
     createdAt: DateTime! @createdAt
 }
