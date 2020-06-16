@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  quarantaine: (where?: QuarantaineWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +39,27 @@ export interface Prisma {
    * Queries
    */
 
+  quarantaine: (
+    where: QuarantaineWhereUniqueInput
+  ) => QuarantaineNullablePromise;
+  quarantaines: (args?: {
+    where?: QuarantaineWhereInput;
+    orderBy?: QuarantaineOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Quarantaine>;
+  quarantainesConnection: (args?: {
+    where?: QuarantaineWhereInput;
+    orderBy?: QuarantaineOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => QuarantaineConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +85,24 @@ export interface Prisma {
    * Mutations
    */
 
+  createQuarantaine: (data: QuarantaineCreateInput) => QuarantainePromise;
+  updateQuarantaine: (args: {
+    data: QuarantaineUpdateInput;
+    where: QuarantaineWhereUniqueInput;
+  }) => QuarantainePromise;
+  updateManyQuarantaines: (args: {
+    data: QuarantaineUpdateManyMutationInput;
+    where?: QuarantaineWhereInput;
+  }) => BatchPayloadPromise;
+  upsertQuarantaine: (args: {
+    where: QuarantaineWhereUniqueInput;
+    create: QuarantaineCreateInput;
+    update: QuarantaineUpdateInput;
+  }) => QuarantainePromise;
+  deleteQuarantaine: (where: QuarantaineWhereUniqueInput) => QuarantainePromise;
+  deleteManyQuarantaines: (
+    where?: QuarantaineWhereInput
+  ) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +128,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  quarantaine: (
+    where?: QuarantaineSubscriptionWhereInput
+  ) => QuarantaineSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -100,6 +143,14 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type QuarantaineOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "date_ASC"
+  | "date_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -119,10 +170,52 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export type QuarantaineWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  phone?: Maybe<String>;
 }>;
+
+export interface QuarantaineWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  user?: Maybe<UserWhereInput>;
+  AND?: Maybe<QuarantaineWhereInput[] | QuarantaineWhereInput>;
+  OR?: Maybe<QuarantaineWhereInput[] | QuarantaineWhereInput>;
+  NOT?: Maybe<QuarantaineWhereInput[] | QuarantaineWhereInput>;
+}
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -203,6 +296,9 @@ export interface UserWhereInput {
   note_lte?: Maybe<Int>;
   note_gt?: Maybe<Int>;
   note_gte?: Maybe<Int>;
+  quarantaines_every?: Maybe<QuarantaineWhereInput>;
+  quarantaines_some?: Maybe<QuarantaineWhereInput>;
+  quarantaines_none?: Maybe<QuarantaineWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -216,7 +312,23 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface UserCreateInput {
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  phone?: Maybe<String>;
+}>;
+
+export interface QuarantaineCreateInput {
+  id?: Maybe<ID_Input>;
+  image: String;
+  user: UserCreateOneWithoutQuarantainesInput;
+}
+
+export interface UserCreateOneWithoutQuarantainesInput {
+  create?: Maybe<UserCreateWithoutQuarantainesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutQuarantainesInput {
   id?: Maybe<ID_Input>;
   name: String;
   phone: String;
@@ -225,12 +337,157 @@ export interface UserCreateInput {
   note?: Maybe<Int>;
 }
 
+export interface QuarantaineUpdateInput {
+  image?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutQuarantainesInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutQuarantainesInput {
+  create?: Maybe<UserCreateWithoutQuarantainesInput>;
+  update?: Maybe<UserUpdateWithoutQuarantainesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutQuarantainesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutQuarantainesDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  position?: Maybe<String>;
+  note?: Maybe<Int>;
+}
+
+export interface UserUpsertWithoutQuarantainesInput {
+  update: UserUpdateWithoutQuarantainesDataInput;
+  create: UserCreateWithoutQuarantainesInput;
+}
+
+export interface QuarantaineUpdateManyMutationInput {
+  image?: Maybe<String>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  phone: String;
+  password: String;
+  position: String;
+  note?: Maybe<Int>;
+  quarantaines?: Maybe<QuarantaineCreateManyWithoutUserInput>;
+}
+
+export interface QuarantaineCreateManyWithoutUserInput {
+  create?: Maybe<
+    QuarantaineCreateWithoutUserInput[] | QuarantaineCreateWithoutUserInput
+  >;
+  connect?: Maybe<QuarantaineWhereUniqueInput[] | QuarantaineWhereUniqueInput>;
+}
+
+export interface QuarantaineCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  image: String;
+}
+
 export interface UserUpdateInput {
   name?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
   position?: Maybe<String>;
   note?: Maybe<Int>;
+  quarantaines?: Maybe<QuarantaineUpdateManyWithoutUserInput>;
+}
+
+export interface QuarantaineUpdateManyWithoutUserInput {
+  create?: Maybe<
+    QuarantaineCreateWithoutUserInput[] | QuarantaineCreateWithoutUserInput
+  >;
+  delete?: Maybe<QuarantaineWhereUniqueInput[] | QuarantaineWhereUniqueInput>;
+  connect?: Maybe<QuarantaineWhereUniqueInput[] | QuarantaineWhereUniqueInput>;
+  set?: Maybe<QuarantaineWhereUniqueInput[] | QuarantaineWhereUniqueInput>;
+  disconnect?: Maybe<
+    QuarantaineWhereUniqueInput[] | QuarantaineWhereUniqueInput
+  >;
+  update?: Maybe<
+    | QuarantaineUpdateWithWhereUniqueWithoutUserInput[]
+    | QuarantaineUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | QuarantaineUpsertWithWhereUniqueWithoutUserInput[]
+    | QuarantaineUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    QuarantaineScalarWhereInput[] | QuarantaineScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | QuarantaineUpdateManyWithWhereNestedInput[]
+    | QuarantaineUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface QuarantaineUpdateWithWhereUniqueWithoutUserInput {
+  where: QuarantaineWhereUniqueInput;
+  data: QuarantaineUpdateWithoutUserDataInput;
+}
+
+export interface QuarantaineUpdateWithoutUserDataInput {
+  image?: Maybe<String>;
+}
+
+export interface QuarantaineUpsertWithWhereUniqueWithoutUserInput {
+  where: QuarantaineWhereUniqueInput;
+  update: QuarantaineUpdateWithoutUserDataInput;
+  create: QuarantaineCreateWithoutUserInput;
+}
+
+export interface QuarantaineScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<QuarantaineScalarWhereInput[] | QuarantaineScalarWhereInput>;
+  OR?: Maybe<QuarantaineScalarWhereInput[] | QuarantaineScalarWhereInput>;
+  NOT?: Maybe<QuarantaineScalarWhereInput[] | QuarantaineScalarWhereInput>;
+}
+
+export interface QuarantaineUpdateManyWithWhereNestedInput {
+  where: QuarantaineScalarWhereInput;
+  data: QuarantaineUpdateManyDataInput;
+}
+
+export interface QuarantaineUpdateManyDataInput {
+  image?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -239,6 +496,23 @@ export interface UserUpdateManyMutationInput {
   password?: Maybe<String>;
   position?: Maybe<String>;
   note?: Maybe<Int>;
+}
+
+export interface QuarantaineSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<QuarantaineWhereInput>;
+  AND?: Maybe<
+    QuarantaineSubscriptionWhereInput[] | QuarantaineSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    QuarantaineSubscriptionWhereInput[] | QuarantaineSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    QuarantaineSubscriptionWhereInput[] | QuarantaineSubscriptionWhereInput
+  >;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -254,6 +528,37 @@ export interface UserSubscriptionWhereInput {
 
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface Quarantaine {
+  id: ID_Output;
+  image: String;
+  date: DateTimeOutput;
+}
+
+export interface QuarantainePromise extends Promise<Quarantaine>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  date: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+}
+
+export interface QuarantaineSubscription
+  extends Promise<AsyncIterator<Quarantaine>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface QuarantaineNullablePromise
+  extends Promise<Quarantaine | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  date: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
 }
 
 export interface User {
@@ -273,6 +578,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   password: () => Promise<String>;
   position: () => Promise<String>;
   note: () => Promise<Int>;
+  quarantaines: <T = FragmentableArray<Quarantaine>>(args?: {
+    where?: QuarantaineWhereInput;
+    orderBy?: QuarantaineOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -285,6 +599,15 @@ export interface UserSubscription
   password: () => Promise<AsyncIterator<String>>;
   position: () => Promise<AsyncIterator<String>>;
   note: () => Promise<AsyncIterator<Int>>;
+  quarantaines: <T = Promise<AsyncIterator<QuarantaineSubscription>>>(args?: {
+    where?: QuarantaineWhereInput;
+    orderBy?: QuarantaineOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -297,28 +620,37 @@ export interface UserNullablePromise
   password: () => Promise<String>;
   position: () => Promise<String>;
   note: () => Promise<Int>;
+  quarantaines: <T = FragmentableArray<Quarantaine>>(args?: {
+    where?: QuarantaineWhereInput;
+    orderBy?: QuarantaineOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserConnection {
+export interface QuarantaineConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: QuarantaineEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface QuarantaineConnectionPromise
+  extends Promise<QuarantaineConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<QuarantaineEdge>>() => T;
+  aggregate: <T = AggregateQuarantainePromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface QuarantaineConnectionSubscription
+  extends Promise<AsyncIterator<QuarantaineConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<QuarantaineEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateQuarantaineSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -342,6 +674,62 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface QuarantaineEdge {
+  node: Quarantaine;
+  cursor: String;
+}
+
+export interface QuarantaineEdgePromise
+  extends Promise<QuarantaineEdge>,
+    Fragmentable {
+  node: <T = QuarantainePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface QuarantaineEdgeSubscription
+  extends Promise<AsyncIterator<QuarantaineEdge>>,
+    Fragmentable {
+  node: <T = QuarantaineSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateQuarantaine {
+  count: Int;
+}
+
+export interface AggregateQuarantainePromise
+  extends Promise<AggregateQuarantaine>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateQuarantaineSubscription
+  extends Promise<AsyncIterator<AggregateQuarantaine>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -391,6 +779,53 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface QuarantaineSubscriptionPayload {
+  mutation: MutationType;
+  node: Quarantaine;
+  updatedFields: String[];
+  previousValues: QuarantainePreviousValues;
+}
+
+export interface QuarantaineSubscriptionPayloadPromise
+  extends Promise<QuarantaineSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = QuarantainePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = QuarantainePreviousValuesPromise>() => T;
+}
+
+export interface QuarantaineSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<QuarantaineSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = QuarantaineSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = QuarantainePreviousValuesSubscription>() => T;
+}
+
+export interface QuarantainePreviousValues {
+  id: ID_Output;
+  image: String;
+  date: DateTimeOutput;
+}
+
+export interface QuarantainePreviousValuesPromise
+  extends Promise<QuarantainePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  date: () => Promise<DateTimeOutput>;
+}
+
+export interface QuarantainePreviousValuesSubscription
+  extends Promise<AsyncIterator<QuarantainePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -464,11 +899,6 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
-/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -477,6 +907,11 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
@@ -492,6 +927,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Quarantaine",
     embedded: false
   }
 ];

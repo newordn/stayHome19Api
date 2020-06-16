@@ -11,6 +11,7 @@ type Mutation{
     userSetPosition(user:ID!,position:String!): User!
     userSetName(user:ID!,name:String): User!
     userSetNote(user:ID!,note:Int!): User!
+    quarantaine(user:ID!,image:Upload!): Quarantaine!
     }
 type User{
     id: ID!
@@ -19,6 +20,13 @@ type User{
     password: String!
     position: String!
     note: Int
+    quarantaines: [Quarantaine]
+}
+type Quarantaine{
+    id: ID!
+    image: String!
+    date: String!
+    user: User!
 }
 `
 module.exports={

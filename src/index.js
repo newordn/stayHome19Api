@@ -1,6 +1,8 @@
 const {GraphQLServer} = require('graphql-yoga')
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
+const Quarantaine = require('./resolvers/Quarantaine')
+const User = require('./resolvers/User')
 const {prisma} = require('./generated/prisma-client')
 const {storeUpload} = require('./helpers/upload')
 const {GraphQLUpload}= require('graphql-upload')
@@ -11,6 +13,8 @@ const resolvers = {
     Query,
     Mutation,
     Upload: GraphQLUpload,
+    Quarantaine,
+    User
 }
 const schema = makeExecutableSchema({typeDefs,resolvers})
 const server = new GraphQLServer({

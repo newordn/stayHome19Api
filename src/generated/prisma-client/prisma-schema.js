@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateQuarantaine {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -16,6 +20,12 @@ scalar DateTime
 scalar Long
 
 type Mutation {
+  createQuarantaine(data: QuarantaineCreateInput!): Quarantaine!
+  updateQuarantaine(data: QuarantaineUpdateInput!, where: QuarantaineWhereUniqueInput!): Quarantaine
+  updateManyQuarantaines(data: QuarantaineUpdateManyMutationInput!, where: QuarantaineWhereInput): BatchPayload!
+  upsertQuarantaine(where: QuarantaineWhereUniqueInput!, create: QuarantaineCreateInput!, update: QuarantaineUpdateInput!): Quarantaine!
+  deleteQuarantaine(where: QuarantaineWhereUniqueInput!): Quarantaine
+  deleteManyQuarantaines(where: QuarantaineWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -41,7 +51,211 @@ type PageInfo {
   endCursor: String
 }
 
+type Quarantaine {
+  id: ID!
+  image: String!
+  date: DateTime!
+  user: User!
+}
+
+type QuarantaineConnection {
+  pageInfo: PageInfo!
+  edges: [QuarantaineEdge]!
+  aggregate: AggregateQuarantaine!
+}
+
+input QuarantaineCreateInput {
+  id: ID
+  image: String!
+  user: UserCreateOneWithoutQuarantainesInput!
+}
+
+input QuarantaineCreateManyWithoutUserInput {
+  create: [QuarantaineCreateWithoutUserInput!]
+  connect: [QuarantaineWhereUniqueInput!]
+}
+
+input QuarantaineCreateWithoutUserInput {
+  id: ID
+  image: String!
+}
+
+type QuarantaineEdge {
+  node: Quarantaine!
+  cursor: String!
+}
+
+enum QuarantaineOrderByInput {
+  id_ASC
+  id_DESC
+  image_ASC
+  image_DESC
+  date_ASC
+  date_DESC
+}
+
+type QuarantainePreviousValues {
+  id: ID!
+  image: String!
+  date: DateTime!
+}
+
+input QuarantaineScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  AND: [QuarantaineScalarWhereInput!]
+  OR: [QuarantaineScalarWhereInput!]
+  NOT: [QuarantaineScalarWhereInput!]
+}
+
+type QuarantaineSubscriptionPayload {
+  mutation: MutationType!
+  node: Quarantaine
+  updatedFields: [String!]
+  previousValues: QuarantainePreviousValues
+}
+
+input QuarantaineSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: QuarantaineWhereInput
+  AND: [QuarantaineSubscriptionWhereInput!]
+  OR: [QuarantaineSubscriptionWhereInput!]
+  NOT: [QuarantaineSubscriptionWhereInput!]
+}
+
+input QuarantaineUpdateInput {
+  image: String
+  user: UserUpdateOneRequiredWithoutQuarantainesInput
+}
+
+input QuarantaineUpdateManyDataInput {
+  image: String
+}
+
+input QuarantaineUpdateManyMutationInput {
+  image: String
+}
+
+input QuarantaineUpdateManyWithoutUserInput {
+  create: [QuarantaineCreateWithoutUserInput!]
+  delete: [QuarantaineWhereUniqueInput!]
+  connect: [QuarantaineWhereUniqueInput!]
+  set: [QuarantaineWhereUniqueInput!]
+  disconnect: [QuarantaineWhereUniqueInput!]
+  update: [QuarantaineUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [QuarantaineUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [QuarantaineScalarWhereInput!]
+  updateMany: [QuarantaineUpdateManyWithWhereNestedInput!]
+}
+
+input QuarantaineUpdateManyWithWhereNestedInput {
+  where: QuarantaineScalarWhereInput!
+  data: QuarantaineUpdateManyDataInput!
+}
+
+input QuarantaineUpdateWithoutUserDataInput {
+  image: String
+}
+
+input QuarantaineUpdateWithWhereUniqueWithoutUserInput {
+  where: QuarantaineWhereUniqueInput!
+  data: QuarantaineUpdateWithoutUserDataInput!
+}
+
+input QuarantaineUpsertWithWhereUniqueWithoutUserInput {
+  where: QuarantaineWhereUniqueInput!
+  update: QuarantaineUpdateWithoutUserDataInput!
+  create: QuarantaineCreateWithoutUserInput!
+}
+
+input QuarantaineWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  user: UserWhereInput
+  AND: [QuarantaineWhereInput!]
+  OR: [QuarantaineWhereInput!]
+  NOT: [QuarantaineWhereInput!]
+}
+
+input QuarantaineWhereUniqueInput {
+  id: ID
+}
+
 type Query {
+  quarantaine(where: QuarantaineWhereUniqueInput!): Quarantaine
+  quarantaines(where: QuarantaineWhereInput, orderBy: QuarantaineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quarantaine]!
+  quarantainesConnection(where: QuarantaineWhereInput, orderBy: QuarantaineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuarantaineConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -49,6 +263,7 @@ type Query {
 }
 
 type Subscription {
+  quarantaine(where: QuarantaineSubscriptionWhereInput): QuarantaineSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -59,6 +274,7 @@ type User {
   password: String!
   position: String!
   note: Int
+  quarantaines(where: QuarantaineWhereInput, orderBy: QuarantaineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quarantaine!]
   createdAt: DateTime!
 }
 
@@ -69,6 +285,21 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
+  name: String!
+  phone: String!
+  password: String!
+  position: String!
+  note: Int
+  quarantaines: QuarantaineCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutQuarantainesInput {
+  create: UserCreateWithoutQuarantainesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutQuarantainesInput {
   id: ID
   name: String!
   phone: String!
@@ -133,6 +364,7 @@ input UserUpdateInput {
   password: String
   position: String
   note: Int
+  quarantaines: QuarantaineUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -141,6 +373,26 @@ input UserUpdateManyMutationInput {
   password: String
   position: String
   note: Int
+}
+
+input UserUpdateOneRequiredWithoutQuarantainesInput {
+  create: UserCreateWithoutQuarantainesInput
+  update: UserUpdateWithoutQuarantainesDataInput
+  upsert: UserUpsertWithoutQuarantainesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutQuarantainesDataInput {
+  name: String
+  phone: String
+  password: String
+  position: String
+  note: Int
+}
+
+input UserUpsertWithoutQuarantainesInput {
+  update: UserUpdateWithoutQuarantainesDataInput!
+  create: UserCreateWithoutQuarantainesInput!
 }
 
 input UserWhereInput {
@@ -222,6 +474,9 @@ input UserWhereInput {
   note_lte: Int
   note_gt: Int
   note_gte: Int
+  quarantaines_every: QuarantaineWhereInput
+  quarantaines_some: QuarantaineWhereInput
+  quarantaines_none: QuarantaineWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

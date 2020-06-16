@@ -14,7 +14,7 @@ const userSetPassword = async (parent,args,context,info)=>{
 
 const userSetPosition = async (parent,args,context,info)=>{
     console.log('userSetPosition mutation')
-     const user = await context.prisma.updateUser({data:{position:args.position},where:{id:args.user}})
+     const user = await context.prisma.updateUser({data:{position:args.position},where:{id:args.author}})
     return user
 }
 
@@ -28,11 +28,18 @@ const userSetNote= async (parent,args,context,info)=>{
      const user = await context.prisma.updateUser({data:{note:args.note},where:{id:args.user}})
     return user
 }
+const quarantaine= async (parent,args,context,info)=>{
+    console.log('userSetQuarantaine mutation')
+    const image = await context.storeUpload(args.image)
+    const quarantaine = await context.prisma.createQuarantaine({...args,user:{connect:{id:args.user}},image:image.path})
+    return quarantaine
+}
 
 module.exports={
     userSetPhone,
     userSetPassword,
     userSetPosition,
     userSetName,
-    userSetNote
+    userSetNote,
+    quarantaine
 }

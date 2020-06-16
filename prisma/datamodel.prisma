@@ -5,5 +5,12 @@ type User{
     password: String!
     position: String!
     note: Int
+    quarantaines: [Quarantaine] @relation(name:"UserQuarantaine")
     createdAt: DateTime! @createdAt
+}
+type Quarantaine{
+    id: ID! @id
+    image: String!
+    date: DateTime! @createdAt
+    user: User! @relation(name:"UserQuarantaine")
 }
