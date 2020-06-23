@@ -14,7 +14,7 @@ const userSetPassword = async (parent,args,context,info)=>{
 
 const userSetPosition = async (parent,args,context,info)=>{
     console.log('userSetPosition mutation')
-     const user = await context.prisma.updateUser({data:{position:args.position},where:{id:args.author}})
+     const user = await context.prisma.updateUser({data:{position:args.position},where:{id:args.user}})
     return user
 }
 
